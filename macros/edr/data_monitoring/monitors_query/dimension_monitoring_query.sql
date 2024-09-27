@@ -83,7 +83,7 @@
             group by edr_bucket_start,
                 edr_bucket_end,
                 start_bucket_in_data,
-                dimension_value,
+                dimension_value
         ),
 
         {# Merging between the row count and the dimensions buckets #}
