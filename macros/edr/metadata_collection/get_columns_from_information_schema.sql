@@ -8,7 +8,7 @@
     {% set schema_relation = api.Relation.create(database=database_name, schema=schema_name).without_identifier() %}
     {% set column_relation = schema_relation.information_schema('COLUMNS') %}
     select
-        upper(table_catalog || '.' || table_schema || '.' || table_name) as full_table_name,
+        upper(table_catalog {{ elementary.string_join() }} '.' {{ elementary.string_join() }} table_schema {{ elementary.string_join() }} '.' {{ elementary.string_join() }} table_name) as full_table_name,
         upper(table_catalog) as database_name,
         upper(table_schema) as schema_name,
         upper(table_name) as table_name,
@@ -33,7 +33,7 @@
 
 {% macro redshift__get_columns_from_information_schema(database_name, schema_name, table_name = none) %}
     select
-        upper(table_catalog || '.' || table_schema || '.' || table_name) as full_table_name,
+        upper(table_catalog {{ elementary.string_join() }} '.' {{ elementary.string_join() }} table_schema {{ elementary.string_join() }} '.' {{ elementary.string_join() }} table_name) as full_table_name,
         upper(table_catalog) as database_name,
         upper(table_schema) as schema_name,
         upper(table_name) as table_name,
@@ -48,7 +48,7 @@
 
 {% macro postgres__get_columns_from_information_schema(database_name, schema_name, table_name = none) %}
     select
-        upper(table_catalog || '.' || table_schema || '.' || table_name) as full_table_name,
+        upper(table_catalog {{ elementary.string_join() }} '.' {{ elementary.string_join() }} table_schema {{ elementary.string_join() }} '.' {{ elementary.string_join() }} table_name) as full_table_name,
         upper(table_catalog) as database_name,
         upper(table_schema) as schema_name,
         upper(table_name) as table_name,
@@ -68,7 +68,7 @@
     {% endif %}
     {% set column_relation = api.Relation.create('system', 'information_schema', 'columns') %}
     select
-        upper(table_catalog || '.' || table_schema || '.' || table_name) as full_table_name,
+        upper(table_catalog {{ elementary.string_join() }} '.' {{ elementary.string_join() }} table_schema {{ elementary.string_join() }} '.' {{ elementary.string_join() }} table_name) as full_table_name,
         upper(table_catalog) as database_name,
         upper(table_schema) as schema_name,
         upper(table_name) as table_name,

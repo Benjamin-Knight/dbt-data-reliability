@@ -24,7 +24,7 @@ GRANT ROLE IDENTIFIER($elementary_role) TO USER IDENTIFIER($elementary_username)
 GRANT USAGE ON WAREHOUSE IDENTIFIER($elementary_warehouse) TO ROLE IDENTIFIER($elementary_role);
 
 -- Read access to elementary schema
-SET elementary_schema_fqn = $elementary_database || '.' || $elementary_schema;
+SET elementary_schema_fqn = $elementary_database {{ elementary.string_join() }} '.' {{ elementary.string_join() }} $elementary_schema;
 GRANT USAGE ON DATABASE IDENTIFIER($elementary_database) TO ROLE IDENTIFIER($elementary_role);
 GRANT USAGE ON SCHEMA IDENTIFIER($elementary_schema_fqn) TO ROLE IDENTIFIER($elementary_role);
 GRANT SELECT ON ALL TABLES IN SCHEMA IDENTIFIER($elementary_schema_fqn) TO ROLE IDENTIFIER($elementary_role);
@@ -70,7 +70,7 @@ BEGIN
     LOOP
         -- Grant USAGE privilege on each schema to the specified user
         IF schema_name.nspname NOT IN ('pg_automv', 'pg_auto_copy', 'pg_s3', 'pg_mv') AND NOT CHARINDEX('/', schema_name.nspname) THEN
-            EXECUTE 'GRANT USAGE ON SCHEMA ' || schema_name.nspname || ' TO ' || user_name;
+            EXECUTE 'GRANT USAGE ON SCHEMA ' {{ elementary.string_join() }} schema_name.nspname {{ elementary.string_join() }} ' TO ' {{ elementary.string_join() }} user_name;
         END IF;
     END LOOP;
 END;

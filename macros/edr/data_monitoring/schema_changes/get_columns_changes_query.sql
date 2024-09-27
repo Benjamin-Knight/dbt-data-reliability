@@ -162,11 +162,11 @@
             change as test_sub_type,
             case
                 when change = 'column_added'
-                    then 'The column "' || column_name || '" was added'
+                    then 'The column "' {{ elementary.string_join() }} column_name {{ elementary.string_join() }} '" was added'
                 when change= 'column_removed'
-                    then 'The column "' || column_name || '" was removed'
+                    then 'The column "' {{ elementary.string_join() }} column_name {{ elementary.string_join() }} '" was removed'
                 when change= 'type_changed'
-                    then 'The type of "' || column_name || '" was changed from ' || pre_data_type || ' to ' || data_type
+                    then 'The type of "' {{ elementary.string_join() }} column_name {{ elementary.string_join() }} '" was changed from ' {{ elementary.string_join() }} pre_data_type {{ elementary.string_join() }} ' to ' {{ elementary.string_join() }} data_type
                 else NULL
             end as test_results_description
         from all_column_changes

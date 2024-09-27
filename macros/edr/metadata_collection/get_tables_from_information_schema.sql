@@ -32,7 +32,7 @@
         case when tables.table_name is not null
             then {{ elementary.full_table_name('TABLES') }}
         else null end as full_table_name,
-        upper(schemas.database_name || '.' || schemas.schema_name) as full_schema_name,
+        upper(schemas.database_name {{ elementary.string_join() }} '.' {{ elementary.string_join() }} schemas.schema_name) as full_schema_name,
         schemas.database_name as database_name,
         schemas.schema_name as schema_name,
         tables.table_name
@@ -57,7 +57,7 @@
 
     select
         {{ elementary.full_table_name() }} as full_table_name,
-        upper(database_name || '.' || schema_name) as full_schema_name,
+        upper(database_name {{ elementary.string_join() }} '.' {{ elementary.string_join() }} schema_name) as full_schema_name,
         database_name,
         schema_name,
         table_name
@@ -80,7 +80,7 @@
 
     select
         {{ elementary.full_table_name() }} as full_table_name,
-        upper(database_name || '.' || schema_name) as full_schema_name,
+        upper(database_name {{ elementary.string_join() }} '.' {{ elementary.string_join() }} schema_name) as full_schema_name,
         database_name,
         schema_name,
         table_name
@@ -124,7 +124,7 @@
             case when tables.table_name is not null
                 then {{ elementary.full_table_name('TABLES') }}
             else null end as full_table_name,
-            upper(schemas.database_name || '.' || schemas.schema_name) as full_schema_name,
+            upper(schemas.database_name {{ elementary.string_join() }} '.' {{ elementary.string_join() }} schemas.schema_name) as full_schema_name,
             schemas.database_name as database_name,
             schemas.schema_name as schema_name,
             tables.table_name

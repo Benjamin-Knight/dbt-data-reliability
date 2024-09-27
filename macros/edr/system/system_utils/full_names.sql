@@ -1,16 +1,16 @@
 {% macro full_table_name(alias) -%}
     {% if alias is defined %}{%- set alias_dot = alias ~ '.' %}{% endif %}
-    upper({{ alias_dot }}database_name || '.' || {{ alias_dot }}schema_name || '.' || {{ alias_dot }}table_name)
+    upper({{ alias_dot }}database_name {{ elementary.string_join() }} '.' {{ elementary.string_join() }} {{ alias_dot }}schema_name {{ elementary.string_join() }} '.' {{ elementary.string_join() }} {{ alias_dot }}table_name)
 {%- endmacro %}
 
 
 {% macro full_schema_name() -%}
-    upper(database_name || '.' || schema_name)
+    upper(database_name {{ elementary.string_join() }} '.' {{ elementary.string_join() }} schema_name)
 {%- endmacro %}
 
 
 {% macro full_column_name() -%}
-    upper(database_name || '.' || schema_name || '.' || table_name || '.' || column_name)
+    upper(database_name {{ elementary.string_join() }} '.' {{ elementary.string_join() }} schema_name {{ elementary.string_join() }} '.' {{ elementary.string_join() }} table_name {{ elementary.string_join() }} '.' {{ elementary.string_join() }} column_name)
 {%- endmacro %}
 
 
