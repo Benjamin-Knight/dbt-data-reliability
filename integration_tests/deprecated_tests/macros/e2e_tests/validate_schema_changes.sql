@@ -14,13 +14,13 @@
         select test_short_name, column_name, sub_type
         from {{ alerts_relation }}
         where status in ('fail', 'warn')
-        group by 1,2,3
+        group by test_short_name, column_name, sub_type
     {% endset %}
     {% set error_schema_changes_alerts %}
         select test_short_name, column_name, sub_type
         from {{ alerts_relation }}
         where status = 'error'
-        group by 1,2,3
+        group by test_short_name, column_name, sub_type
     {% endset %}
     {% set error_alert_rows = run_query(error_schema_changes_alerts) %}
     {# We should have one error test from schema_changes_from_baseline with enforce_types true #}

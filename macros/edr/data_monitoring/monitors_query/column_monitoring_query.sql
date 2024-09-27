@@ -85,9 +85,9 @@
                     left join buckets on (edr_bucket_start = start_bucket_in_data)
                 {%- endif %}
                 {% if dimensions | length > 0 %}
-                    group by 1,2,{{ elementary.select_dimensions_columns(prefixed_dimensions) }}
+                    group by bucket_start,bucket_end,{{ elementary.select_dimensions_columns(prefixed_dimensions) }}
                 {% else %}
-                    group by 1,2
+                    group by bucket_start,bucket_end
                 {% endif %}
         {%- else %}
             {{ elementary.empty_column_monitors_cte() }}

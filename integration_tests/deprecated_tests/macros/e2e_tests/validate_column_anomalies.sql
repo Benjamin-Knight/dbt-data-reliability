@@ -47,7 +47,7 @@
         from {{ alerts_relation }}
         where status in ('fail', 'warn') and upper(table_name) = 'ANY_TYPE_COLUMN_ANOMALIES'
           and column_name is not NULL
-        group by 1,2
+        group by column_name, sub_type
     {% endset %}
     {% set alert_rows = run_query(any_type_column_alerts) %}
     {% set indexed_columns = {} %}

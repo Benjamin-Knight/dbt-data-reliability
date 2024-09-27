@@ -78,7 +78,11 @@
             is_new,
             detected_at
         from columns_snapshot
-        group by 1,2,3,4,5,6,7
+        group by column_state_id,full_column_name,full_table_name,
+            column_name,
+            data_type,
+            is_new,
+            detected_at
     )
 
     select

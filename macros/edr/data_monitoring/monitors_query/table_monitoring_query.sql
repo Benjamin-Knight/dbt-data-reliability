@@ -203,7 +203,9 @@
                    0
                else {{ elementary.edr_cast_as_float(elementary.row_count()) }} end as row_count_value
         from buckets left join time_filtered_monitored_table on (edr_bucket_start = start_bucket_in_data)
-        group by 1,2,3
+        group by edr_bucket_start,
+               edr_bucket_end,
+               start_bucket_in_data
     )
 
     select edr_bucket_start,
@@ -254,7 +256,8 @@
             {{ elementary.timediff('second', elementary.edr_cast_as_timestamp('max(timestamp_val)'), "least(edr_bucket_end, {})".format(elementary.current_timestamp_column())) }} as freshness
         from buckets cross join unique_timestamps
         where timestamp_val < edr_bucket_end
-        group by 1,2
+        group by edr_bucket_start,
+            edr_bucket_end
     ),
 
     -- create a single table with all the freshness values
@@ -296,7 +299,8 @@
                 elementary.timediff('second', 'edr_bucket_start', 'edr_bucket_end')
             ) }} as metric_value
     from buckets left join time_filtered_monitored_table on (edr_bucket_start = start_bucket_in_data)
-    group by 1,2
+    group by edr_bucket_start,
+        edr_bucket_end
 {% endmacro %}
 
 {% macro get_no_timestamp_event_freshness_query(metric, metric_properties) %}

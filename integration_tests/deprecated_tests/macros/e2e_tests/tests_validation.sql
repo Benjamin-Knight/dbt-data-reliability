@@ -17,7 +17,7 @@
         from {{ alerts_relation }}
         where status in ('fail', 'warn') and upper(table_name) = 'NO_TIMESTAMP_ANOMALIES'
           and column_name is not NULL
-        group by 1,2
+        group by column_name, sub_type
     {% endset %}
     {% set alert_rows = run_query(no_timestamp_column_validation_alerts) %}
     {% set indexed_columns = {} %}
@@ -93,7 +93,7 @@
         select table_name, column_name, test_name
         from {{ alerts_relation }}
         where status in ('fail', 'warn')
-        group by 1, 2, 3
+        group by table_name, column_name, test_name
     {% endset %}
     {% set alert_rows = run_query(dbt_test_alerts) %}
     {% set found_tables = [] %}
