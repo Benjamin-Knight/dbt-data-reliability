@@ -115,7 +115,7 @@
     with test_results as (
       {{ sql }}
     )
-    select * from test_results {% if sample_limit is not none %} limit {{ sample_limit }} {% endif %}
+    {{ select_test_results(sample_limit) }}
   {% endset %}
   {% do return(elementary.agate_to_dicts(elementary.run_query(query))) %}
 {% endmacro %}

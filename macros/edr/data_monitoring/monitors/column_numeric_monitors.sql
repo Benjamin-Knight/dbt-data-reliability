@@ -1,3 +1,11 @@
+{% macro standard_deviation(column_name) %}
+  {% do return(adapter.dispatch("standard_deviation", "elementary")(column_name)) %}
+{% endmacro %}
+
+{% macro standard_deviation(column_name) %}
+  {% do return(adapter.dispatch("standard_deviation", "elementary")(column_name)) %}
+{% endmacro %}
+
 {% macro max(column_name) -%}
     max(cast({{ column_name }} as {{ elementary.edr_type_float() }}))
 {%- endmacro %}
@@ -22,11 +30,11 @@
     {{ elementary.edr_not_percent(elementary.zero_count(column_name), elementary.row_count()) }}
 {% endmacro %}
 
-{% macro standard_deviation(column_name) -%}
+{% macro default__standard_deviation(column_name) -%}
     stddev(cast({{ column_name }} as {{ elementary.edr_type_float() }}))
 {%- endmacro %}
 
-{% macro variance(column_name) -%}
+{% macro default__variance(column_name) -%}
     variance(cast({{ column_name }} as {{ elementary.edr_type_float() }}))
 {%- endmacro %}
 

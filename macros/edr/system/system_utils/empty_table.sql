@@ -113,7 +113,7 @@
     {%- set dummy_values = elementary.dummy_values() %}
 
     {%- if data_type == 'boolean' %}
-        cast ({{ dummy_values['boolean'] }} as {{ elementary.edr_type_bool()}}) as {{ column_name }}
+        {{ print_boolean(dummy_values['boolean']) }} as {{ column_name }}
     {%- elif data_type == 'timestamp' -%}
         cast('{{ dummy_values['timestamp'] }}' as {{ elementary.edr_type_timestamp() }}) as {{ column_name }}
     {%- elif data_type == 'int' %}

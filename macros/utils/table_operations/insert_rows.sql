@@ -188,7 +188,9 @@
 
 {%- macro render_value(value, data_type) -%}
     {%- if value is defined and value is not none -%}
-        {%- if value is number -%}
+        {%- if data_type == 'boolean' -%}
+            {{- elementary.print_boolean(value) -}}
+        {%- elif value is number -%}
             {{- value -}}
         {%- elif value is string and data_type == 'timestamp' -%}
             {{- elementary.edr_cast_as_timestamp(elementary.edr_quote(value)) -}}
