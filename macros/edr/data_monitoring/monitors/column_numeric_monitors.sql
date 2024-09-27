@@ -2,8 +2,8 @@
   {% do return(adapter.dispatch("standard_deviation", "elementary")(column_name)) %}
 {% endmacro %}
 
-{% macro standard_deviation(column_name) %}
-  {% do return(adapter.dispatch("standard_deviation", "elementary")(column_name)) %}
+{% macro variance(column_name) %}
+  {% do return(adapter.dispatch("variance", "elementary")(column_name)) %}
 {% endmacro %}
 
 {% macro max(column_name) -%}
