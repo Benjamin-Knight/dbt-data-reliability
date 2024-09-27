@@ -133,3 +133,26 @@
     {%- endset %}
     {{ return(complete_buckets_cte) }}
 {% endmacro %}
+
+
+{% macro sqlserver__complete_buckets_cte(time_bucket, bucket_end_expr, min_bucket_start_expr, max_bucket_end_expr) %}
+  {%- set complete_buckets_cte %}
+    SELECT 
+      dateadd({{ time_bucket.period }}, number, {{ min_bucket_start_expr }}) as edr_bucket_start,
+      dateadd({{ time_bucket.period }}, number + {{ time_bucket.count }}, {{ min_bucket_start_expr }}) as edr_bucket_end
+    FROM    
+      ( 
+        select 0 as number
+        union all
+        select 
+          row_number() over (order by c.object_id ) AS number
+            from
+          sys.columns c
+        ) numbers
+    WHERE   
+      number <= datediff({{ time_bucket.period }}, {{ min_bucket_start_expr }}, {{ max_bucket_end_expr }}) - 1
+      AND number % {{ time_bucket.count }} = 0
+  {%- endset %}
+  
+  {{ return(complete_buckets_cte) }}
+{% endmacro %}
