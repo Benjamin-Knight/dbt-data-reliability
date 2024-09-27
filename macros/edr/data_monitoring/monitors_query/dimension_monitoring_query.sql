@@ -51,10 +51,9 @@
             select distinct
                 dimension_value,
                 1 as joiner,
-                min(bucket_end) as dimension_min_bucket_end,
-                sum(metric_value)
+                min(bucket_end) as dimension_min_bucket_end
             from all_dimension_metrics
-            group by dimension_value, joiner
+            group by dimension_value
             {# Remove outdated dimension values (dimensions with all metrics of 0 in the range of the test time) #}
             having sum(metric_value) > 0
         ),
