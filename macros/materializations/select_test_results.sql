@@ -1,11 +1,23 @@
-{%- macro select_test_results(sample_limit) -%}
-    {{ return(adapter.dispatch('select_test_results', 'elementary')(sample_limit)) }}
+{%- macro select_test_results(sql, sample_limit) -%}
+    {{ return(adapter.dispatch('select_test_results', 'elementary')(sql, sample_limit)) }}
 {%- endmacro -%}
 
 {%- macro default__select_test_results(sample_limit) -%}
+    with test_results as (
+      {{ sql }}
+    )
+
     select * from test_results {% if sample_limit is not none %} limit {{ sample_limit }} {% endif %}
 {%- endmacro -%}
 
-{%- macro sqlserver__select_test_results(sample_limit) -%}
-    select {% if sample_limit is not none %} top {{ sample_limit }} {% endif %} * from test_results
+{%- macro sqlserver__select_test_results(sql, sample_limit) -%}
+    {# We do not support nested CTEs #}
+    {% set test_view %}
+        [{{ target.schema }}.testview_{{ range(1300, 19000) | random }}]
+    {% endset %}
+    EXEC('create view {{test_view}} as {{ sql }};');
+
+    select {% if sample_limit is not none %} top {{ sample_limit }} {% endif %} * from test_view;
+
+    EXEC('drop view {{test_view}};');
 {%- endmacro -%}
