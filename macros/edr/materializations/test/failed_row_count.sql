@@ -36,8 +36,5 @@
 {% endmacro %}
 
 {% macro get_failed_row_count_calc_query(failed_row_count_calc) %}
-  with results as (
-    {{ sql }}
-  )
-  select {{ failed_row_count_calc }} as count from results
+  {{ elementary.select_failed_row_count(sql, failed_row_count_calc) }}
 {% endmacro %}
