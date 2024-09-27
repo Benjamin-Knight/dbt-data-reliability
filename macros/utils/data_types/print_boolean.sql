@@ -7,5 +7,5 @@
 {%- endmacro %}
 
 {% macro sqlserver__print_boolean(value) -%}
-    {{ elementary.edr_cast_as_bool("'{{ value }}'") }}
+    {{ elementary.edr_cast_as_bool(elementary.edr_quote(value)) }}
 {%- endmacro %}
