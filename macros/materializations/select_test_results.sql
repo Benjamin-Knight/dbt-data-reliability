@@ -2,7 +2,7 @@
     {{ return(adapter.dispatch('select_test_results', 'elementary')(sql, sample_limit)) }}
 {%- endmacro -%}
 
-{%- macro default__select_test_results(sample_limit) -%}
+{%- macro default__select_test_results(sql, sample_limit) -%}
     with test_results as (
       {{ sql }}
     )
