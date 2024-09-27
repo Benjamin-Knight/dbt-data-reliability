@@ -10,5 +10,6 @@
             {% do new_list.append(elementary.edr_quote(separator)) %}
         {% endif %}
     {% endfor %}
-    {{ return(elementary.join_list(new_list, " {{ elementary.string_join() }} ")) }}
+    {% set seperator %}" {{ elementary.string_join() }} "{% endset %}
+    {{ return(elementary.join_list(new_list, seperator)) }}
 {% endmacro %}
