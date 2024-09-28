@@ -96,7 +96,6 @@ case when
           bucket_end as end_time,
           *
         from anomaly_scores_with_is_anomalous
-        order by bucket_end, dimension_value
       )
 
       select * from final_results
