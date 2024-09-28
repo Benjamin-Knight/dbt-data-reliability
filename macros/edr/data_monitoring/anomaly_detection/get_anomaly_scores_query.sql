@@ -169,7 +169,7 @@
                 last_value(bucket_end) over (partition by metric_name, full_table_name, column_name, dimension, dimension_value, bucket_seasonality order by bucket_end asc rows between unbounded preceding and current row) training_end,
                 first_value(bucket_end) over (partition by metric_name, full_table_name, column_name, dimension, dimension_value, bucket_seasonality order by bucket_end asc rows between unbounded preceding and current row) as training_start
             from grouped_metrics
-            where not is_excluded
+            where not is_excluded = {{ elementary.print_boolean(TRUE) }}
             group by
                 metric_id,
                 full_table_name,
