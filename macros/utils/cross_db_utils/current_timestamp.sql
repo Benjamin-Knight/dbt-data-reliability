@@ -22,7 +22,6 @@
     cast(current_timestamp() as timestamp)
 {% endmacro %}
 
-
 {% macro edr_current_timestamp_in_utc() -%}
     {{ adapter.dispatch('edr_current_timestamp_in_utc','elementary')() }}
 {%- endmacro %}
@@ -62,3 +61,11 @@
 {% macro trino__edr_current_timestamp_in_utc() -%}
     cast(current_timestamp at time zone 'UTC' as timestamp(6))
 {%- endmacro -%}
+
+{% macro sqlserver__edr_current_timestamp() %}
+    cast(GETDATE() as {{ sqlserver__edr_type_timestamp() }})
+{% endmacro %}
+
+{% macro sqlserver__edr_current_timestamp_in_utc() %}
+    cast(GETUTCDATE() as {{ sqlserver__edr_type_timestamp() }})
+{% endmacro %}

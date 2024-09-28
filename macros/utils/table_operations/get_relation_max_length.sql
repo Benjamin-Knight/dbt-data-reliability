@@ -30,3 +30,7 @@
 {% macro trino__get_relation_max_name_length(temporary, relation, sql_query) %}
     {{ return(128) }}
 {% endmacro %}
+
+{% macro sqlserver__get_relation_max_name_length(temporary, relation, sql_query) %}
+    {{ return(110) }}
+{% endmacro %}

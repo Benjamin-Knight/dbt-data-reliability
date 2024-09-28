@@ -186,6 +186,10 @@
     {{- return(string_value | replace("'", "''")) -}}
 {%- endmacro -%}
 
+{%- macro sqlserver__escape_special_chars(string_value) -%}
+    {{- return(string_value | replace("'", "''")) -}}
+{%- endmacro -%}
+
 {%- macro render_value(value, data_type) -%}
     {%- if value is defined and value is not none -%}
         {%- if data_type == 'boolean' -%}

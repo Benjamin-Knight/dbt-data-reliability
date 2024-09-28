@@ -131,3 +131,24 @@
     {%- endif %}
 
 {% endmacro %}
+
+{% macro sqlserver__data_type_list(data_type) %}
+
+    {% set string_list = ['nvarchar', 'nchar', 'varchar', 'char'] | list %}
+    {% set numeric_list = ['int','bigint','smallint','tinyint','float','real','double','decimal','numeric'] | list %}
+    {% set timestamp_list = ['timestamp','date'] | list %}
+    {% set boolean_list = ["bit"] | list %}
+
+    {%- if data_type == 'string' %}
+        {{ return(string_list) }}
+    {%- elif data_type == 'numeric' %}
+        {{ return(numeric_list) }}
+    {%- elif data_type == 'timestamp' %}
+        {{ return(timestamp_list) }}
+    {%- elif data_type == "boolean" %}
+        {{ return(boolean_list) }}
+    {%- else %}
+        {{ return([]) }}
+    {%- endif %}
+
+{% endmacro %}

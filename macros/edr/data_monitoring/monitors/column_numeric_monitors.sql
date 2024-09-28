@@ -34,8 +34,16 @@
     stddev(cast({{ column_name }} as {{ elementary.edr_type_float() }}))
 {%- endmacro %}
 
+{% macro sqlserver__standard_deviation(column_name) -%}
+    stdev(cast({{ column_name }} as {{ elementary.edr_type_float() }}))
+{%- endmacro %}
+
 {% macro default__variance(column_name) -%}
     variance(cast({{ column_name }} as {{ elementary.edr_type_float() }}))
+{%- endmacro %}
+
+{% macro sqlserver__variance(column_name) -%}
+    var(cast({{ column_name }} as {{ elementary.edr_type_float() }}))
 {%- endmacro %}
 
 {% macro sum(column_name) -%}

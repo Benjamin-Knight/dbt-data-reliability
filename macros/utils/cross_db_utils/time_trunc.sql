@@ -10,3 +10,11 @@
 {% macro bigquery__edr_time_trunc(date_part, date_expression) %}
     timestamp_trunc(cast({{ date_expression }} as timestamp), {{ date_part }})
 {% endmacro %}
+
+{% macro sqlserver__edr_time_trunc(date_part, date_expression) %}
+    {% if date_part == 'day' %}
+        cast(cast({{ date_expression }} as date) AS {{ elementary.edr_type_timestamp() }})
+    {% elif date_part == 'month' %}
+        cast(dateadd(day, 1, eomonth({{ date_expression }}, -1)) AS {{ elementary.edr_type_timestamp() }})
+    {% endif %}
+{% endmacro %}

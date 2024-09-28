@@ -22,6 +22,15 @@
     {% endif %}
 {% endmacro %}
 
+{% macro sqlserver__get_compiled_code(node) %}
+    {% set compiled_code = node.get('compiled_code') or node.get('compiled_sql') %}
+    {% if not compiled_code %}
+        {% do return(none) %}
+    {% else %}
+        {% do return(compiled_code.replace("'", "''")) %}
+    {% endif %}
+{% endmacro %}
+
 {% macro get_compiled_code_too_long_err_msg() %}
     {% do return("Compiled code is too long.") %}
 {% endmacro %}

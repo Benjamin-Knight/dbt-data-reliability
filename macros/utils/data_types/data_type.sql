@@ -19,6 +19,9 @@
     {% do return("BOOL") %}
 {% endmacro %}
 
+{% macro sqlserver__edr_type_bool() %}
+    {% do return("bit") %}
+{% endmacro %}
 
 {%- macro edr_type_string() -%}
     {{ return(adapter.dispatch('edr_type_string', 'elementary')()) }}
@@ -81,6 +84,9 @@
     {{ return(long_string) }}
 {%- endmacro -%}
 
+{%- macro sqlserver__edr_type_long_string() -%}
+    varchar(max)
+{%- endmacro -%}
 
 {% macro edr_type_bigint() %}
     {% set macro = dbt.type_bigint or dbt_utils.type_bigint %}
@@ -121,6 +127,9 @@
     {{ return(macro()) }}
 {% endmacro %}
 
+{% macro sqlserver__edr_type_timestamp() %}
+    datetime2(6)
+{% endmacro %}
 
 {% macro edr_type_numeric() %}
     {% set macro = dbt.type_numeric or dbt_utils.type_numeric %}
