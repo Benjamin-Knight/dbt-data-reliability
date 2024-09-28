@@ -140,7 +140,7 @@
                 bucket_start,
                 bucket_end,
                 {{ bucket_seasonality_expr }} as bucket_seasonality,
-                {{ test_configuration.anomaly_exclude_metrics or 'FALSE' }} as is_excluded,
+                {{ elementary.print_boolean(test_configuration.anomaly_exclude_metrics or 'FALSE') }} as is_excluded,
                 bucket_duration_hours,
                 updated_at
             from grouped_metrics_duplicates
