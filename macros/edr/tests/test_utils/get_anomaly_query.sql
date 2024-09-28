@@ -1,7 +1,7 @@
 {%- macro get_anomaly_query(flattened_test=none) -%}
   {%- set query -%}
     select * from ({{ elementary.get_read_anomaly_scores_query(flattened_test) }}) results
-    where is_anomalous = true
+    where is_anomalous = {{ elementary.print_boolean(TRUE) }}
   {%- endset -%}
   {{- return(query) -}}
 {%- endmacro -%}
@@ -56,7 +56,7 @@ case when
             {{ elementary.anomaly_score_condition(test_configuration) }}
           )
           and bucket_end > {{ elementary.edr_timeadd('day', backfill_period, 'max_bucket_end') }}
-          then TRUE else FALSE end as is_anomalous
+          then {{ elementary.print_boolean(TRUE) }} else {{ elementary.print_boolean(FALSE) }} end as is_anomalous
         from anomaly_scores
       ),
 
