@@ -122,7 +122,7 @@ case when
     else
       case when {{ elementary.set_directional_anomaly(anomaly_direction, anomaly_score, sensitivity) }} 
       then {{ elementary.print_boolean(True) }} else {{ elementary.print_boolean(False) }} end
-    end
+    end = {{ elementary.print_boolean(True) }}
 {%- endmacro -%}
 
 {%- macro avg_percent_anomalous_condition(spike_failure_percent_threshold, drop_failure_percent_threshold, anomaly_direction) -%}
