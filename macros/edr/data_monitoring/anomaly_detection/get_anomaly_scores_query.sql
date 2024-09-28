@@ -170,7 +170,20 @@
                 first_value(bucket_end) over (partition by metric_name, full_table_name, column_name, dimension, dimension_value, bucket_seasonality order by bucket_end asc rows between unbounded preceding and current row) as training_start
             from grouped_metrics
             where not is_excluded
-            {{ dbt_utils.group_by(13) }}
+            group by
+                metric_id,
+                full_table_name,
+                column_name,
+                dimension,
+                dimension_value,
+                metric_name,
+                metric_value,
+                source_value,
+                bucket_start,
+                bucket_end,
+                bucket_seasonality,
+                bucket_duration_hours,
+                updated_at
         ),
 
         anomaly_scores as (

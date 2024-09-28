@@ -170,7 +170,16 @@
                 else NULL
             end as test_results_description
         from all_column_changes
-        {{ dbt_utils.group_by(9) }}
+        group by 
+            data_issue_id,
+            detected_at,
+            database_name,
+            schema_name,
+            table_name.
+            column_name,
+            test_type,
+            test_sub_type,
+            test_results_description
 
     )
 
