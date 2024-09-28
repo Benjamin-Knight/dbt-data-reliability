@@ -8,7 +8,7 @@
         select generated_at from {{ dbt_run_results_relation }}
         where
           unique_id = '{{ model_node.unique_id }}' and
-          full_refresh = true
+          full_refresh = {{ elementary.print_boolean(true) }}
         order by generated_at desc
         limit 1
     {% endset %}
@@ -21,7 +21,7 @@
         select top 1 generated_at from {{ dbt_run_results_relation }}
         where
           unique_id = '{{ model_node.unique_id }}' and
-          full_refresh = true
+          full_refresh = {{ elementary.print_boolean(true) }}
         order by generated_at desc
     {% endset %}
     {% do return(elementary.result_value(query)) %}
