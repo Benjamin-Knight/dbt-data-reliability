@@ -119,10 +119,11 @@ case when
 {%- macro is_score_anomalous_condition(sensitivity, anomaly_direction) -%}
     {%- set spikes_only_metrics = ['freshness', 'event_freshness'] -%}
     case when metric_name IN {{ elementary.strings_list_to_tuple(spikes_only_metrics) }} then
-            anomaly_score > {{ sensitivity }}
+      case when anomaly_score > {{ sensitivity }} then {{ elementary.print_boolean(TRUE) }} else {{ elementary.print_boolean(FALSE) }} end
     else
-        {{ elementary.set_directional_anomaly(anomaly_direction, anomaly_score, sensitivity) }}
-     end
+      case when {{ elementary.set_directional_anomaly(anomaly_direction, anomaly_score, sensitivity) }} 
+      then {{ elementary.print_boolean(TRUE) }} else {{ elementary.print_boolean(FALSE) }} end
+    end
 {%- endmacro -%}
 
 {%- macro avg_percent_anomalous_condition(spike_failure_percent_threshold, drop_failure_percent_threshold, anomaly_direction) -%}
