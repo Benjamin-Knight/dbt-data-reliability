@@ -118,8 +118,8 @@ final as (
         training_set_size,
         updated_at,
         case
-            when abs(anomaly_score) > {{ elementary.get_config_var('anomaly_sensitivity') }} then {{ print_boolean(TRUE) }}
-            else {{ print_boolean(FALSE) }} end
+            when abs(anomaly_score) > {{ elementary.get_config_var('anomaly_sensitivity') }} then {{ print_boolean(True) }}
+            else {{ print_boolean(False) }} end
         as is_anomaly
     from metrics_anomaly_score
 )

@@ -5,7 +5,7 @@
 {%- macro default__get_anomaly_query(flattened_test) -%}
   {%- set query -%}
     select * from ({{ elementary.get_read_anomaly_scores_query(flattened_test) }}) results
-    where is_anomalous = {{ elementary.print_boolean(TRUE) }}
+    where is_anomalous = {{ elementary.print_boolean(True) }}
   {%- endset -%}
   {{- return(query) -}}
 {%- endmacro -%}
@@ -14,7 +14,7 @@
   {# We do not support nested CTEs just concatendate the additional and #}
   {%- set query -%}
     {{ elementary.get_read_anomaly_scores_query(flattened_test) }}
-    and is_anomalous = {{ elementary.print_boolean(TRUE) }}
+    and is_anomalous = {{ elementary.print_boolean(True) }}
   {%- endset -%}
   {{- return(query) -}}
 {%- endmacro -%}
@@ -69,7 +69,7 @@ case when
             {{ elementary.anomaly_score_condition(test_configuration) }}
           )
           and bucket_end > {{ elementary.edr_timeadd('day', backfill_period, 'max_bucket_end') }}
-          then {{ elementary.print_boolean(TRUE) }} else {{ elementary.print_boolean(FALSE) }} end as is_anomalous
+          then {{ elementary.print_boolean(True) }} else {{ elementary.print_boolean(False) }} end as is_anomalous
         from anomaly_scores
       ),
 
@@ -79,16 +79,16 @@ case when
           training_avg as average,
           {# when there is an anomaly we would want to use the last value of the metric (lag), otherwise visually the expectations would look out of bounds #}
           case
-          when is_anomalous = {{ elementary.print_boolean(TRUE) }} and '{{ test_configuration.anomaly_direction }}' = 'spike' then
+          when is_anomalous = {{ elementary.print_boolean(True) }} and '{{ test_configuration.anomaly_direction }}' = 'spike' then
           lag(metric_value) over (partition by full_table_name, column_name, metric_name, dimension, dimension_value, bucket_seasonality order by bucket_end)
-          when is_anomalous = {{ elementary.print_boolean(TRUE) }} and '{{ test_configuration.anomaly_direction }}' != 'spike' then
+          when is_anomalous = {{ elementary.print_boolean(True) }} and '{{ test_configuration.anomaly_direction }}' != 'spike' then
           lag(min_metric_value) over (partition by full_table_name, column_name, metric_name, dimension, dimension_value, bucket_seasonality order by bucket_end)
           when '{{ test_configuration.anomaly_direction }}' = 'spike' then metric_value
           else min_metric_value end as min_value,
           case
-          when is_anomalous = {{ elementary.print_boolean(TRUE) }} and '{{ test_configuration.anomaly_direction }}' = 'drop' then
+          when is_anomalous = {{ elementary.print_boolean(True) }} and '{{ test_configuration.anomaly_direction }}' = 'drop' then
           lag(metric_value) over (partition by full_table_name, column_name, metric_name, dimension, dimension_value, bucket_seasonality order by bucket_end)
-          when is_anomalous = {{ elementary.print_boolean(TRUE) }} and '{{ test_configuration.anomaly_direction }}' != 'drop' then
+          when is_anomalous = {{ elementary.print_boolean(True) }} and '{{ test_configuration.anomaly_direction }}' != 'drop' then
           lag(max_metric_value) over (partition by full_table_name, column_name, metric_name, dimension, dimension_value, bucket_seasonality order by bucket_end)
           when '{{ test_configuration.anomaly_direction }}' = 'drop' then metric_value
           else max_metric_value end as max_value,
@@ -119,10 +119,10 @@ case when
 {%- macro is_score_anomalous_condition(sensitivity, anomaly_direction) -%}
     {%- set spikes_only_metrics = ['freshness', 'event_freshness'] -%}
     case when metric_name IN {{ elementary.strings_list_to_tuple(spikes_only_metrics) }} then
-      case when anomaly_score > {{ sensitivity }} then {{ elementary.print_boolean(TRUE) }} else {{ elementary.print_boolean(FALSE) }} end
+      case when anomaly_score > {{ sensitivity }} then {{ elementary.print_boolean(True) }} else {{ elementary.print_boolean(False) }} end
     else
       case when {{ elementary.set_directional_anomaly(anomaly_direction, anomaly_score, sensitivity) }} 
-      then {{ elementary.print_boolean(TRUE) }} else {{ elementary.print_boolean(FALSE) }} end
+      then {{ elementary.print_boolean(True) }} else {{ elementary.print_boolean(False) }} end
     end
 {%- endmacro -%}
 

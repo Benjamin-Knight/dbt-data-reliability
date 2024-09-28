@@ -95,7 +95,7 @@
             {{ elementary.null_string() }} as pre_data_type,
             detected_at as detected_at
         from cur
-        where is_new = {{ elementary.print_boolean(TRUE) }}
+        where is_new = {{ elementary.print_boolean(True) }}
 
     ),
     {% endif %}
