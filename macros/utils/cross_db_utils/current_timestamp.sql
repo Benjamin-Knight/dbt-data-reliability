@@ -63,9 +63,9 @@
 {%- endmacro -%}
 
 {% macro sqlserver__edr_current_timestamp() %}
-    cast(GETDATE() as {{ sqlserver__edr_type_timestamp() }})
+    cast(GETDATE() as {{ elementary.edr_type_timestamp() }})
 {% endmacro %}
 
 {% macro sqlserver__edr_current_timestamp_in_utc() %}
-    cast(GETUTCDATE() as {{ sqlserver__edr_type_timestamp() }})
+    cast(GETUTCDATE() as {{ elementary.edr_type_timestamp() }})
 {% endmacro %}
