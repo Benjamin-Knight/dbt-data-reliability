@@ -167,6 +167,21 @@
   {% do return(parameters) %}
 {% endmacro %}
 
+{% macro sqlserver__generate_elementary_profile_args(method, elementary_database, elementary_schema) %}
+  {% do return([
+    _parameter("type", target.type),
+    _parameter("host", target.host),
+    _parameter("port", target.port),
+    _parameter("user", target.user),
+    _parameter("password", "<PASSWORD>"),
+    _parameter("windows_login", "False"),
+    _parameter("dbname", elementary_database),
+    _parameter("schema", elementary_schema),
+    _parameter("trust_cert", target.trust_cert),
+    _parameter("threads", target.threads),
+    _parameter("encrypt", target.encrypt),
+  ]) %}
+{% endmacro %}
 
 {% macro default__generate_elementary_profile_args(method, elementary_database, elementary_schema) %}
 Adapter "{{ target.type }}" is not supported on Elementary.
