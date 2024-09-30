@@ -12,3 +12,8 @@
 {% macro bigquery__timediff(timepart, first_timestamp, second_timestamp) %}
     timestamp_diff({{ second_timestamp }}, {{ first_timestamp }}, {{ timepart }})
 {% endmacro %}
+
+{# For SQL server we use the datediff function for edr_datediff which supports time parts #}
+{% macro sqlserver__timediff(timepart, first_timestamp, second_timestamp) %}
+    {{ elementary.edr_datediff(first_timestamp, second_timestamp, timepart) }}
+{% endmacro %}

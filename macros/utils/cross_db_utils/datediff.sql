@@ -150,3 +150,7 @@
     {% endif %}
     {{ return(macro(elementary.edr_cast_as_timestamp(first_date), elementary.edr_cast_as_timestamp(second_date), date_part)) }}
 {% endmacro %}
+
+{% macro sqlserver__edr_datediff(first_date, second_date, date_part) %}
+    datediff({{date_part}}, {{first_date}}, {{second_date}})
+{% endmacro %}
