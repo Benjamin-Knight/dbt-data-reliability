@@ -43,5 +43,5 @@ select
   results.filter as freshness_filter
 from results
 join sources on results.unique_id = sources.unique_id
-where {{ print_boolean(not elementary.get_config_var('disable_source_freshness_alerts')) }} = {{ print_boolean(True) }}
+where {{ elementary.print_boolean(not elementary.get_config_var('disable_source_freshness_alerts')) }} = {{ elementary.print_boolean(True) }}
 and lower(status) != 'pass'

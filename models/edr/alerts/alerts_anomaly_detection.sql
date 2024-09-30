@@ -34,7 +34,7 @@ alerts_anomaly_detection as (
            status,
            result_rows
         from elementary_test_results
-        where {{ print_boolean(not elementary.get_config_var('disable_test_alerts')) }} = {{ print_boolean(True) }}
+        where {{ elementary.print_boolean(not elementary.get_config_var('disable_test_alerts')) }} = {{ elementary.print_boolean(True) }}
         and lower(status) != 'pass' 
         {%- if elementary.get_config_var('disable_warn_alerts') -%} and lower(status) != 'warn' {%- endif -%} 
         {%- if elementary.get_config_var('disable_skipped_test_alerts') -%} and lower(status) != 'skipped' {%- endif -%} 

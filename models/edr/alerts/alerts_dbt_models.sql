@@ -76,6 +76,6 @@ select model_execution_id as alert_id,
        status,
        full_refresh
 from error_models
-where {{ print_boolean(not elementary.get_config_var('disable_model_alerts')) }} = {{ print_boolean(True) }}
+where {{ elementary.print_boolean(not elementary.get_config_var('disable_model_alerts')) }} = {{ elementary.print_boolean(True) }}
 and lower(status) != 'success' 
 {%- if elementary.get_config_var('disable_skipped_model_alerts') -%} and lower(status) != 'skipped' {%- endif -%}
