@@ -38,3 +38,8 @@
 {% macro trino__edr_hour_of_week_expression(date_expr) %}
     date_format({{ date_expr }}, '%W%H')
 {% endmacro %}
+
+{% macro sqlserver__edr_hour_of_week_expression(date_expr) %}
+    convert({{ elementary.edr_type_string() }}, datepart(DW, {{ date_expr }}) + 1) + format(datepart(HH, {{ date_expr }}), '0#')
+{% endmacro %}
+
