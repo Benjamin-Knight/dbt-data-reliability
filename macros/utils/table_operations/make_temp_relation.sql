@@ -6,6 +6,13 @@
     {% do return(dbt.make_temp_relation(base_relation, suffix)) %}
 {% endmacro %}
 
+{% macro sqlserver__edr_make_temp_relation(base_relation, suffix) %}
+    {% if suffix == none %}
+        {% set suffix = '' %}
+    {% endif %}
+    {% do return(dbt.make_temp_relation(base_relation, suffix)) %}
+{% endmacro %}
+
 {% macro spark__edr_make_temp_relation(base_relation, suffix) %}
     {% set tmp_identifier = elementary.table_name_with_suffix(base_relation.identifier, suffix) %}
     {% set tmp_relation = base_relation.incorporate(path = {
