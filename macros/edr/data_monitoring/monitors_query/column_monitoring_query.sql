@@ -84,10 +84,13 @@
                 {%- if timestamp_column %}
                     left join buckets on (edr_bucket_start = start_bucket_in_data)
                 {%- endif %}
+                {%- if timestamp_column %}
+                    group by edr_bucket_start,edr_bucket_end
+                {%- else %}
+                    group by {{ elementary.null_timestamp() }},{{ elementary.edr_cast_as_timestamp(elementary.edr_quote(elementary.run_started_at_as_string())) }}
+                {%- endif %}
                 {% if dimensions | length > 0 %}
-                    group by bucket_start,bucket_end,{{ elementary.select_dimensions_columns(prefixed_dimensions) }}
-                {% else %}
-                    group by bucket_start,bucket_end
+                    ,{{ elementary.select_dimensions_columns(prefixed_dimensions) }}
                 {% endif %}
         {%- else %}
             {{ elementary.empty_column_monitors_cte() }}
