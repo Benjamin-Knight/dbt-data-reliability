@@ -14,7 +14,7 @@
     {# We do not support nested CTEs #}
     {% set test_sql = elementary.escape_special_chars(sql) %}
     {% set unique_key = local_md5(test_sql) %}
-    {% set test_view %}[{{ target.schema }}.testview_{{ unique_key }}]{% endset %}
+    {% set test_view %}[{{ target.schema }}.testview_{{ unique_key }}_{{ range(1300, 19000) | random }}]{% endset %}
     EXEC('create view {{ test_view }} as {{ test_sql }};');
 
     select {% if sample_limit is not none %} top {{ sample_limit }} {% endif %} * from {{ test_view }};

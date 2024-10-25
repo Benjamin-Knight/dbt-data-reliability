@@ -13,7 +13,7 @@
     {# We do not support nested CTEs #}
     {% set test_sql = elementary.escape_special_chars(sql) %}
     {% set test_view %}
-        [{{ target.schema }}.failed_count_{{ local_md5(test_sql) }}]
+        [{{ target.schema }}.failed_count_{{ local_md5(test_sql)_{{ range(1300, 19000) | random }} }}]
     {% endset %}
     EXEC('create view {{test_view}} as {{ test_sql }};');
 
