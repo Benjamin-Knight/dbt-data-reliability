@@ -92,5 +92,7 @@
 {%- macro sqlserver__get_default_config() -%}
     {% set default_config = elementary.default__get_default_config() %}
     {% do default_config.update({'dbt_artifacts_chunk_size': 1000}) %}
+    {% do default_config.update({'insert_rows_method': 'chunk'}) %}
+    
     {{- return(default_config) -}}
 {%- endmacro -%}
