@@ -88,3 +88,9 @@
     {% do default_config.update({'query_max_size': 250000}) %}
     {{- return(default_config) -}}
 {%- endmacro -%}
+
+{%- macro sqlserver__get_default_config() -%}
+    {% set default_config = elementary.default__get_default_config() %}
+    {% do default_config.update({'dbt_artifacts_chunk_size': 1000}) %}
+    {{- return(default_config) -}}
+{%- endmacro -%}
