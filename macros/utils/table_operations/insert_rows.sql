@@ -154,7 +154,8 @@
             {% for row in rows -%}
                 ({%- for column in columns -%}
                     {%- set column_value = elementary.insensitive_get_dict_value(row, column.name, none) -%}
-                    {{ elementary.render_value(column_value) }}
+                    {%- set normalized_data_type = elementary.normalize_data_type(column.dtype) -%}
+                    {{ elementary.render_value(column_value, normalized_data_type) }}
                     {{- "," if not loop.last else "" -}}
                  {%- endfor -%}) {{- "," if not loop.last else "" -}}
             {%- endfor -%}
