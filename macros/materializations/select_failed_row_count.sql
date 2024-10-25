@@ -12,8 +12,9 @@
 {%- macro sqlserver__select_failed_row_count(sql, failed_row_count_calc) -%}
     {# We do not support nested CTEs #}
     {% set test_sql = elementary.escape_special_chars(sql) %}
+    {% set unique_key = local_md5(test_sql) %}
     {% set test_view %}
-        [{{ target.schema }}.failed_count_{{ local_md5(test_sql)_{{ range(1300, 19000) | random }} }}]
+        [{{ target.schema }}.failed_count_{{ unique_key }}_{{ range(1300, 19000) | random }}]
     {% endset %}
     EXEC('create view {{test_view}} as {{ test_sql }};');
 
